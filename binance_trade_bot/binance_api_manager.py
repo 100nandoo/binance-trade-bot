@@ -264,6 +264,7 @@ class BinanceAPIManager:
         order_quantity_s = "{:0.0{}f}".format(order_quantity, pair_info["baseAssetPrecision"])
 
         self.logger.info(f"BUY QTY {order_quantity}")
+        self.logger.trade(f"BUY QTY {order_quantity}")
 
         # Try to buy until successful
         order = None
@@ -291,6 +292,7 @@ class BinanceAPIManager:
             return None
 
         self.logger.info(f"Bought {origin_symbol}")
+        self.logger.trade(f"Bought {origin_symbol}")
 
         trade_log.set_complete(order.cumulative_quote_qty)
 
@@ -328,6 +330,7 @@ class BinanceAPIManager:
         self.logger.info(f"Selling {order_quantity} of {origin_symbol}")
 
         self.logger.info(f"Balance is {origin_balance}")
+        self.logger.trade(f"Balance is {origin_balance}")
         order = None
         order_guard = self.stream_manager.acquire_order_guard()
         while order is None:
@@ -352,6 +355,7 @@ class BinanceAPIManager:
             new_balance = self.get_currency_balance(origin_symbol, True)
 
         self.logger.info(f"Sold {origin_symbol}")
+        self.logger.trade(f"Sold {origin_symbol}")
 
         trade_log.set_complete(order.cumulative_quote_qty)
 
